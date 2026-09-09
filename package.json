@@ -1,0 +1,25 @@
+{
+  "name": "iptracker",
+  "version": "1.0.0",
+  "description": "Aplicación web para consultar información geográfica y de red asociada a una dirección IP. Los resultados se presentan en una interfaz responsive e incluyen un mapa con la ubicación aproximada.",
+  "private": true,
+  "scripts": {
+    "dev": "tailwindcss -i ./css/styles.css -o ./css/output.css --watch",
+    "build": "tailwindcss -i ./css/styles.css -o ./css/output.css --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ale2484/IpTracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Ale2484/IpTracker/issues"
+  },
+  "homepage": "https://github.com/Ale2484/IpTracker#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}
