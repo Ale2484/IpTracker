@@ -12,9 +12,15 @@ let notificationText = notification.querySelector("#notificationText");
 let notificationButton = notification.querySelector("#closeNotification");
 
 /* Event listener en el boton de submit */
-submitButton.addEventListener("click", async (e) => {
+searchIpForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const result = await getIpData(ip.value);
+    const address = ip.value.trim();
+    if (!address) {
+        showNotification("Dirección IP inválida", "Introduce una dirección IP. Ejemplo: 8.8.8.8");
+        return;
+    }
+    const result = await getIpData(address);
+    if (!result) return;
 
     /* Si la peticion ha funcionado */
     if (result && result.status === "success") {
@@ -45,9 +51,31 @@ function showNotification(title, text){
 /* Funcion que obtiene los datos de una IP */
 async function getIpData(ipAdress){
     try {
-        const response = await fetch(`http://ip-api.com/json/${ipAdress}`);
+        const response = await fetch(`https://ipapi.co/${encodeURIComponent(ipAdress)}/json/`);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
         const data = await response.json();
-        return data;
+        if (data.error) {
+            if (data.reason === "Invalid IP Address" || data.reserved) {
+                return { status: "fail" };
+            }
+            throw new Error(data.reason || "Error de la API");
+        }
+        // Adaptamos los campos del proveedor al formato utilizado por las tarjetas.
+        return {
+            status: "success",
+            query: data.ip,
+            isp: data.org || "No disponible",
+            org: data.org,
+            country: data.country_name,
+            regionName: data.region,
+            city: data.city,
+            zip: data.postal || "No disponible",
+            timezone: data.timezone,
+            lat: data.latitude,
+            lon: data.longitude,
+        };
     } catch (error) {
         showNotification("Error al realizar la consulta", "No se ha podido obtener la información de la IP. Inténtalo de nuevo");
         return null;

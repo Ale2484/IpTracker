@@ -21,7 +21,7 @@ Aplicación web para consultar información geográfica y de red asociada a una 
 - Tailwind CSS 4 mediante Tailwind CLI
 - npm para la gestión de dependencias y scripts
 - CSS personalizado
-- [IP-API](https://ip-api.com/) para obtener los datos de la dirección IP
+- [ipapi.co](https://ipapi.co/api/) mediante HTTPS para obtener los datos de la dirección IP
 - Google Maps Embed para mostrar la ubicación
 
 ## Estructura del proyecto
@@ -92,6 +92,12 @@ La pantalla de resultados reúne la información geográfica y de red de la dire
 Cuando la dirección introducida no es válida o la consulta no puede completarse, la aplicación muestra una notificación de error.
 
 ![Notificación de dirección IP no válida](docs/screenshots/invalid-ip.png)
+
+## GitHub Pages
+
+La consulta utiliza `https://ipapi.co/{ip}/json/`, compatible con páginas HTTPS como GitHub Pages. El endpoint gratuito de IP-API (`http://ip-api.com`) no admite HTTPS y el navegador bloquea su uso desde una página HTTPS por contenido mixto.
+
+ipapi.co aplica límites de uso; si se supera la cuota o falla el servicio, se muestra un error de consulta. El proveedor devuelve la organización de red (`org`), que se utiliza también como información del proveedor (ISP).
 
 ## Consideraciones
 
